@@ -1,0 +1,40 @@
+﻿<Microsoft.MobileBlazorBindings.Elements.ContentPage BackgroundColor="Color.FloralWhite">
+    <Microsoft.MobileBlazorBindings.Elements.ScrollView>
+        <Microsoft.MobileBlazorBindings.Elements.StackLayout>
+            @foreach(var item in items.GroupBy(x => x.Name).Select(xy => xy.Sum(c => c.Done ? 0 : 1)).ToList())
+            {
+                    <Microsoft.MobileBlazorBindings.Elements.Label Text="@(item.ToString())" />
+            }
+                
+        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+
+    </Microsoft.MobileBlazorBindings.Elements.ScrollView>
+</Microsoft.MobileBlazorBindings.Elements.ContentPage>
+@code {
+
+    List<WorkOutItem> items;
+
+    WorkOutItemDatabase database;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (database == null)
+        {
+            database = new WorkOutItemDatabase();
+        }
+        RefreshItems();
+        return base.OnInitializedAsync();
+    }
+
+    void DecrementSitups()
+    {
+        
+    }
+
+    void RefreshItems()
+    {
+        items = database.GetItemsAsync().Result;
+    }
+
+    
+}

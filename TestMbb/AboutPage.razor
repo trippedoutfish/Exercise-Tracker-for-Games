@@ -1,0 +1,76 @@
+﻿<Microsoft.MobileBlazorBindings.Elements.ContentPage Title="About">
+    <Microsoft.MobileBlazorBindings.Elements.ScrollView>
+        <Microsoft.MobileBlazorBindings.Elements.Grid>
+            <Layout>
+                <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
+                <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Star" />
+            </Layout>
+            <Contents>
+                <Microsoft.MobileBlazorBindings.Elements.GridCell>
+                    <Microsoft.MobileBlazorBindings.Elements.StackLayout BackgroundColor="primaryColor"
+                                 VerticalOptions="LayoutOptions.FillAndExpand"
+                                 HorizontalOptions="LayoutOptions.Fill">
+                        <Microsoft.MobileBlazorBindings.Elements.StackLayout Orientation="StackOrientation.Horizontal"
+                                     HorizontalOptions="LayoutOptions.Center"
+                                     VerticalOptions="LayoutOptions.Center">
+                            <Microsoft.MobileBlazorBindings.Elements.ContentView Padding="new Thickness(0,40,0,40)"
+                                         VerticalOptions="LayoutOptions.FillAndExpand">
+                                <Microsoft.MobileBlazorBindings.Elements.Image Source="@(new FileImageSource{File = "info.png"})"
+                                       VerticalOptions="LayoutOptions.Center"
+                                       HeightRequest="64" />
+                            </Microsoft.MobileBlazorBindings.Elements.ContentView>
+                        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                    </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                </Microsoft.MobileBlazorBindings.Elements.GridCell>
+
+                <Microsoft.MobileBlazorBindings.Elements.GridCell Row="1">
+                    <Microsoft.MobileBlazorBindings.Elements.ScrollView>
+                        <Microsoft.MobileBlazorBindings.Elements.StackLayout Orientation="StackOrientation.Vertical"
+                                     Padding="new Thickness(16,40,16,40)"
+                                     Spacing="10">
+                            <Microsoft.MobileBlazorBindings.Elements.Label FontSize="22">
+                                <Microsoft.MobileBlazorBindings.Elements.Span FontAttributes="FontAttributes.Bold"
+                                      FontSize="22">Gaming Exercise Tracker Thingy?</Microsoft.MobileBlazorBindings.Elements.Span>
+                                <Microsoft.MobileBlazorBindings.Elements.Span> </Microsoft.MobileBlazorBindings.Elements.Span>
+                                <Microsoft.MobileBlazorBindings.Elements.Span TextColor="lightTextColor">0.1</Microsoft.MobileBlazorBindings.Elements.Span>
+                            </Microsoft.MobileBlazorBindings.Elements.Label>
+                            @*
+                                // TODO: Figure out how to do this for the underlined <Span> below
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding TapCommand, Mode=OneWay}"
+                                        CommandParameter="https://docs.microsoft.com/en-us/xamarin/xamarin-forms/" />
+                                </Span.GestureRecognizers>
+
+                            *@
+                            <Microsoft.MobileBlazorBindings.Elements.Label>
+                                <Microsoft.MobileBlazorBindings.Elements.Span>This app is written in XAML and C# with the </Microsoft.MobileBlazorBindings.Elements.Span>
+                                <Microsoft.MobileBlazorBindings.Elements.Span FontAttributes="FontAttributes.Bold"
+                                      TextColor="Color.Blue"
+                                      TextDecorations="TextDecorations.Underline">Mobile Blazor Bindings Project!</Microsoft.MobileBlazorBindings.Elements.Span>
+                                <Microsoft.MobileBlazorBindings.Elements.Span>.</Microsoft.MobileBlazorBindings.Elements.Span>
+                            </Microsoft.MobileBlazorBindings.Elements.Label>
+                            <Microsoft.MobileBlazorBindings.Elements.Button Margin="new Thickness(0,10,0,0)"
+                                    OnClick="OpenWeb"
+                                    BackgroundColor="primaryColor"
+                                    TextColor="Color.White">
+                                Learn more
+                            </Microsoft.MobileBlazorBindings.Elements.Button>
+                        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                    </Microsoft.MobileBlazorBindings.Elements.ScrollView>
+                </Microsoft.MobileBlazorBindings.Elements.GridCell>
+            </Contents>
+        </Microsoft.MobileBlazorBindings.Elements.Grid>
+    </Microsoft.MobileBlazorBindings.Elements.ScrollView>
+</Microsoft.MobileBlazorBindings.Elements.ContentPage>
+
+@code
+{
+    Color primaryColor = Color.FromHex("96d1ff");
+    Color lightTextColor = Color.FromHex("999999");
+
+    async Task OpenWeb()
+    {
+        await Launcher.OpenAsync(new Uri("https://docs.microsoft.com/en-us/mobile-blazor-bindings/"));
+    }
+}

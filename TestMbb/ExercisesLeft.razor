@@ -1,0 +1,76 @@
+﻿<Microsoft.MobileBlazorBindings.Elements.ContentPage BackgroundColor="Color.FloralWhite">
+    <StyleSheet Resource="Exercises.css" Assembly="GetType().Assembly"></StyleSheet>
+    <Microsoft.MobileBlazorBindings.Elements.ScrollView>
+        <Microsoft.MobileBlazorBindings.Elements.StackLayout>
+            @foreach (var item in items)
+            {
+                <Microsoft.MobileBlazorBindings.Elements.StackLayout Orientation="StackOrientation.Horizontal">
+                    <Label Text="@(item.Name + ": " + item.AmountLeft + " / " + item.AmountTotal)" class="redText" />
+                    <Microsoft.MobileBlazorBindings.Elements.CheckBox IsChecked="@item.Done" IsCheckedChanged="@(() => FinishWorkOutItem(item))" />
+                </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+            }
+        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+
+    </Microsoft.MobileBlazorBindings.Elements.ScrollView>
+</Microsoft.MobileBlazorBindings.Elements.ContentPage>
+@code {
+    //[Parameter] public List<WorkOutItem> items { get; set; }
+    int planks;
+    int situps;
+    int itemsLeft;
+    List<WorkOutItem> items; 
+
+    WorkOutItemDatabase database;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (database == null)
+        {
+            database = new WorkOutItemDatabase();
+        }
+        RefreshItems();
+        return base.OnInitializedAsync();
+    }
+
+    void IncrementPlanks()
+    {
+        planks++;
+    }
+
+    void DecrementPlanks()
+    {
+        planks--;
+    }
+
+    void IncrementSitups20()
+    {
+        WorkOutItem situps20 = new WorkOutItem();
+        situps20.Name = "Situps";
+        situps20.AmountTotal = 20;
+        situps20.AmountLeft = 20;
+        situps20.Done = false;
+        database.SaveItemAsync(situps20);
+        RefreshItems();
+        situps += 20;
+    }
+
+    void DecrementSitups()
+    {
+        situps--;
+    }
+
+    void RefreshItems()
+    {
+        items = database.GetItemsNotDoneAsync().Result;
+        itemsLeft = items.Count;
+    }
+
+    void FinishWorkOutItem(WorkOutItem item)
+    {
+        item.Done = true;
+        database.SaveItemAsync(item);
+        //items.Remove(item);
+        RefreshItems();
+        //base.InvokeAsync(StateHasChanged);
+    }
+}
