@@ -7,24 +7,34 @@
 
     <ChildContent>
         <Microsoft.MobileBlazorBindings.Elements.FlyoutItem Route="items"
-                    Title="Items"
-                    FlyoutDisplayOptions="FlyoutDisplayOptions.AsMultipleItems">
+                                                            Title="Items"
+                                                            FlyoutDisplayOptions="FlyoutDisplayOptions.AsMultipleItems">
             <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesLeft"
-                Title="ExercisesLeft"
-                Icon="@(new FileImageSource { File="info.png" })">
+                                                                  Title="Exercises Left"
+                                                                  Icon="@(new FileImageSource { File="info.png" })">
                 <ExercisesLeft />
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
             <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exerciseStats"
-                Title="ExerciseStats"
-                Icon="@(new FileImageSource { File="info.png" })">
+                                                                  Title="Exercise Stats"
+                                                                  Icon="@(new FileImageSource { File="info.png" })">
                 <ExerciseStats />
+            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addDotaExercises"
+                                                                  Title="Add Dota Exercises"
+                                                                  Icon="@(new FileImageSource { File="info.png" })">
+                <AddDotaExercises />
+            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
+                                                                  Title="Add Apex Exercises"
+                                                                  Icon="@(new FileImageSource { File="info.png" })">
+                <AddApexExercises />
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
         </Microsoft.MobileBlazorBindings.Elements.FlyoutItem>
 
         <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="about"
             Title="About"
             Icon="@(new FileImageSource { File="info.png" })">
-            <AboutPage />
+            <AddApexExercises />
         </Microsoft.MobileBlazorBindings.Elements.ShellContent>
 
         <Microsoft.MobileBlazorBindings.Elements.MenuItem Text="Random"

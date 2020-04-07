@@ -3,12 +3,19 @@
     https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/styles/css/
 */
 
-.redText {
-    color: red;
-    margin-bottom: 50;
+.infoText {
+    font-size: 40.0;
 }
 
-stepper {
+.stepperText {
+    font-size: 37.5;
+}
+
+.buttonText {
+    font-size: 40.0;
+}
+
+/*stepper {
     opacity: 0.6;
 }
 
@@ -65,5 +72,5 @@ stepper {
 .dataItemMainStyle {
     font-size: small;
     color: white;
-}
+}*/
 

@@ -1,0 +1,171 @@
+﻿<Microsoft.MobileBlazorBindings.Elements.ContentPage BackgroundColor="Color.FloralWhite">
+    <StyleSheet Resource="Exercises.css" Assembly="GetType().Assembly"></StyleSheet>
+    <Microsoft.MobileBlazorBindings.Elements.Grid HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                  VerticalOptions="LayoutOptions.FillAndExpand">
+        <Layout>
+            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
+            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Star" />
+        </Layout>
+        <Contents>
+            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="0">
+                <Microsoft.MobileBlazorBindings.Elements.Frame BorderColor="Color.Gray"
+                                                               CornerRadius="5"
+                                                               Padding="8"
+                                                               WidthRequest="300">
+                    <Microsoft.MobileBlazorBindings.Elements.Grid HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                  VerticalOptions="LayoutOptions.FillAndExpand">
+                        <Layout>
+                            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Star" />
+                            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
+                            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
+                        </Layout>
+                        <Contents>
+
+                            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="0">
+                                <Microsoft.MobileBlazorBindings.Elements.Label Text="Add a plank for not doing enough damage."
+                                                                               class="infoText"
+                                                                               VerticalTextAlignment="TextAlignment.Center"
+                                                                               HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                               HorizontalTextAlignment="TextAlignment.Start" />
+                            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="1">
+                                <Microsoft.MobileBlazorBindings.Elements.BoxView Color="Color.Gray"
+                                                                                 HeightRequest="2"
+                                                                                 HorizontalOptions="LayoutOptions.Fill" />
+                            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="2">
+                                <Microsoft.MobileBlazorBindings.Elements.Button OnClick="IncrementPlanks" Text="30s per Plank" class="buttonText" />
+                            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                        </Contents>
+                    </Microsoft.MobileBlazorBindings.Elements.Grid>
+                </Microsoft.MobileBlazorBindings.Elements.Frame>
+            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="1">
+                <Microsoft.MobileBlazorBindings.Elements.Frame BorderColor="Color.Gray"
+                                                               CornerRadius="5"
+                                                               Padding="8"
+                                                               WidthRequest="300">
+                    <Microsoft.MobileBlazorBindings.Elements.Grid HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                  VerticalOptions="LayoutOptions.FillAndExpand">
+                        <Layout>
+                            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Star" />
+                            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
+                            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
+                            <Microsoft.MobileBlazorBindings.Elements.ColumnDefinition GridUnitType="GridUnitType.Star" />
+                            <Microsoft.MobileBlazorBindings.Elements.ColumnDefinition GridUnitType="GridUnitType.Star" />
+                        </Layout>
+                        <Contents>
+
+                            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="0" ColumnSpan="2">
+                                <Microsoft.MobileBlazorBindings.Elements.Label Text="Add a situp for each rank you placed."
+                                                                               class="infoText"
+                                                                               VerticalTextAlignment="TextAlignment.Center"
+                                                                               HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                               HorizontalTextAlignment="TextAlignment.Start" />
+                            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="1" ColumnSpan="2">
+                                <Microsoft.MobileBlazorBindings.Elements.BoxView Color="Color.Gray"
+                                                                                 HeightRequest="2"
+                                                                                 HorizontalOptions="LayoutOptions.FillAndExpand" />
+                            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="2" Column="0">
+                                    <Microsoft.MobileBlazorBindings.Elements.Stepper Minimum="1"
+                                                                                     Maximum="20"
+                                                                                     @bind-Value="placement"
+                                                                                     Increment="1" />
+                                </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                                <Microsoft.MobileBlazorBindings.Elements.GridCell Row="2" Column="1">
+                                    <Microsoft.MobileBlazorBindings.Elements.Label Text="@(placement + (
+                                                                               placement == 1 ? "st" :
+                                                                               placement == 2 ? "nd" :
+                                                                               placement == 3 ? "rd" :
+                                                                               "th" ) + " place")"
+                                                                                   class="stepperText"
+                                                                                   HorizontalTextAlignment="TextAlignment.Center"
+                                                                                   VerticalTextAlignment="TextAlignment.Center"
+                                                                                   HorizontalOptions="LayoutOptions.FillAndExpand" />
+                                </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                            <Microsoft.MobileBlazorBindings.Elements.GridCell Row="3" ColumnSpan="2">
+                                <Microsoft.MobileBlazorBindings.Elements.Button OnClick="IncrementPlanks"
+                                                                                class="buttonText"
+                                                                                HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                                Text="@((placement == 1 ? "Congrats on the win!!!" :
+                                                                                                      placement == 2 ? "Almost there." :
+                                                                                                      placement == 3 ? "You can make it next time." :
+                                                                                                      placement == 4 ? "Oh so close to greatness." :
+                                                                                                      placement <= 5 ? "I'd pick you for my top 5." :
+                                                                                                      placement <= 10 ? "Top 10 not bad." :
+                                                                                                      "Drop and give me " + placement + " situpsii." ))" />
+                            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+                        </Contents>
+                    </Microsoft.MobileBlazorBindings.Elements.Grid>
+                </Microsoft.MobileBlazorBindings.Elements.Frame>
+            </Microsoft.MobileBlazorBindings.Elements.GridCell>
+        </Contents>
+    </Microsoft.MobileBlazorBindings.Elements.Grid>
+</Microsoft.MobileBlazorBindings.Elements.ContentPage>
+@code {
+    //[Parameter] public List<WorkOutItem> items { get; set; }
+    int planks;
+    int situps;
+    int itemsLeft;
+
+    double placement;
+
+    List<WorkOutItem> items;
+
+    WorkOutItemDatabase database;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (database == null)
+        {
+            database = new WorkOutItemDatabase();
+        }
+        placement = 20;
+        RefreshItems();
+        return base.OnInitializedAsync();
+    }
+
+    void IncrementPlanks()
+    {
+        planks++;
+    }
+
+    void DecrementPlanks()
+    {
+        planks--;
+    }
+
+    void IncrementSitups20()
+    {
+        WorkOutItem situps20 = new WorkOutItem();
+        situps20.Name = "Situps";
+        situps20.AmountTotal = 20;
+        situps20.AmountLeft = 20;
+        situps20.Done = false;
+        database.SaveItemAsync(situps20);
+        RefreshItems();
+        situps += 20;
+    }
+
+    void DecrementSitups()
+    {
+        situps--;
+    }
+
+    void RefreshItems()
+    {
+        items = database.GetItemsAsync().Result;
+        itemsLeft = items.Count;
+    }
+
+    void FinishWorkOutItem(WorkOutItem item)
+    {
+        item.Done = true;
+        database.SaveItemAsync(item);
+        //items.Remove(item);
+        RefreshItems();
+        //base.InvokeAsync(StateHasChanged);
+    }
+}

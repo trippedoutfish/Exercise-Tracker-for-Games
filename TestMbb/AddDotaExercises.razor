@@ -5,10 +5,18 @@
             @foreach (var item in items)
             {
                 <Microsoft.MobileBlazorBindings.Elements.Frame BorderColor="Color.Gray" CornerRadius="5" Padding="8" WidthRequest="300">
-                    @*<Microsoft.MobileBlazorBindings.Elements.StackLayout >*@
-                        <Microsoft.MobileBlazorBindings.Elements.Label Text="@(item.Name + ": " + item.AmountLeft + " / " + item.AmountTotal)" class="redText" />
-                        <Microsoft.MobileBlazorBindings.Elements.CheckBox IsChecked="@item.Done" IsCheckedChanged="@(() => FinishWorkOutItem(item))" />
-                    @*</Microsoft.MobileBlazorBindings.Elements.StackLayout>*@
+                    <Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                        <Microsoft.MobileBlazorBindings.Elements.StackLayout Orientation="StackOrientation.Horizontal">
+                            <Microsoft.MobileBlazorBindings.Elements.Label Text="@(item.Name + ": " + item.AmountLeft + " / " + item.AmountTotal)" class="redText" VerticalTextAlignment="TextAlignment.Center" HorizontalOptions="LayoutOptions.FillAndExpand" HorizontalTextAlignment="TextAlignment.Start" />
+                            <Microsoft.MobileBlazorBindings.Elements.CheckBox IsChecked="@item.Done" IsCheckedChanged="@(() => FinishWorkOutItem(item))" HorizontalOptions="LayoutOptions.End" />
+                        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                        <Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                            <Microsoft.MobileBlazorBindings.Elements.BoxView Color="Color.Gray" 
+                                                                             HeightRequest="2" 
+                                                                             HorizontalOptions="LayoutOptions.Fill" />
+                            <Microsoft.MobileBlazorBindings.Elements.Label Text="Im not sure what goes here" />
+                        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                    </Microsoft.MobileBlazorBindings.Elements.StackLayout>
                 </Microsoft.MobileBlazorBindings.Elements.Frame>
             }
         </Microsoft.MobileBlazorBindings.Elements.StackLayout>
@@ -20,7 +28,7 @@
     int planks;
     int situps;
     int itemsLeft;
-    List<WorkOutItem> items; 
+    List<WorkOutItem> items;
 
     WorkOutItemDatabase database;
 
@@ -63,7 +71,7 @@
 
     void RefreshItems()
     {
-        items = database.GetItemsNotDoneAsync().Result;
+        items = database.GetItemsAsync().Result;
         itemsLeft = items.Count;
     }
 
