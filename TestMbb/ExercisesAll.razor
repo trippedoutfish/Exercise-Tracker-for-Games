@@ -22,55 +22,20 @@
     </Microsoft.MobileBlazorBindings.Elements.ScrollView>
 </Microsoft.MobileBlazorBindings.Elements.ContentPage>
 @code {
-    //[Parameter] public List<WorkOutItem> items { get; set; }
-    int planks;
-    int situps;
-    int itemsLeft;
+    [Parameter] public WorkOutItemDatabase database { get; set; }
     List<WorkOutItem> items;
 
-    WorkOutItemDatabase database;
 
     protected override Task OnInitializedAsync()
     {
-        if (database == null)
-        {
-            database = new WorkOutItemDatabase();
-        }
         RefreshItems();
         return base.OnInitializedAsync();
     }
 
-    void IncrementPlanks()
-    {
-        planks++;
-    }
-
-    void DecrementPlanks()
-    {
-        planks--;
-    }
-
-    void IncrementSitups20()
-    {
-        WorkOutItem situps20 = new WorkOutItem();
-        situps20.Name = "Situps";
-        situps20.AmountTotal = 20;
-        situps20.AmountLeft = 20;
-        situps20.Done = false;
-        database.SaveItemAsync(situps20);
-        RefreshItems();
-        situps += 20;
-    }
-
-    void DecrementSitups()
-    {
-        situps--;
-    }
 
     void RefreshItems()
     {
         items = database.GetItemsAsync().Result;
-        itemsLeft = items.Count;
     }
 
     void FinishWorkOutItem(WorkOutItem item)

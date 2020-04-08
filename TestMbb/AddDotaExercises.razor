@@ -24,20 +24,16 @@
     </Microsoft.MobileBlazorBindings.Elements.ScrollView>
 </Microsoft.MobileBlazorBindings.Elements.ContentPage>
 @code {
-    //[Parameter] public List<WorkOutItem> items { get; set; }
+    [Parameter] public WorkOutItemDatabase database { get; set; }
+
     int planks;
     int situps;
     int itemsLeft;
     List<WorkOutItem> items;
 
-    WorkOutItemDatabase database;
-
     protected override Task OnInitializedAsync()
     {
-        if (database == null)
-        {
-            database = new WorkOutItemDatabase();
-        }
+
         RefreshItems();
         return base.OnInitializedAsync();
     }

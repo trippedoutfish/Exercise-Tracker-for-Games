@@ -3,6 +3,7 @@ using Microsoft.MobileBlazorBindings;
 using Microsoft.Extensions.Hosting;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TestMbb
 {
@@ -15,6 +16,7 @@ namespace TestMbb
                 {
                     // Register app-specific services
                     //services.AddSingleton<AppState>();
+                    services.AddSingleton<WorkOutItemDatabase>();
                 })
                 .Build();
             host.AddComponent<AppShell>(parent: this);

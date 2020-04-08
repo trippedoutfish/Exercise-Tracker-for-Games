@@ -95,7 +95,7 @@
                                                                                                       placement == 4 ? "Oh so close to greatness." :
                                                                                                       placement <= 5 ? "I'd pick you for my top 5." :
                                                                                                       placement <= 10 ? "Top 10 not bad." :
-                                                                                                      "Drop and give me " + placement + " situpsii." ))" />
+                                                                                                      "Drop and give me " + placement + " situps." ))" />
                             </Microsoft.MobileBlazorBindings.Elements.GridCell>
                         </Contents>
                     </Microsoft.MobileBlazorBindings.Elements.Grid>
@@ -105,67 +105,32 @@
     </Microsoft.MobileBlazorBindings.Elements.Grid>
 </Microsoft.MobileBlazorBindings.Elements.ContentPage>
 @code {
-    //[Parameter] public List<WorkOutItem> items { get; set; }
-    int planks;
-    int situps;
-    int itemsLeft;
+    [Parameter] public WorkOutItemDatabase database { get; set; }
 
     double placement;
 
-    List<WorkOutItem> items;
-
-    WorkOutItemDatabase database;
-
     protected override Task OnInitializedAsync()
     {
-        if (database == null)
-        {
-            database = new WorkOutItemDatabase();
-        }
-        placement = 20;
-        RefreshItems();
         return base.OnInitializedAsync();
     }
 
     void IncrementPlanks()
     {
-        planks++;
+        WorkOutItem planks = new WorkOutItem();
+        planks.Name = "Planks";
+        planks.AmountTotal = 1;
+        planks.AmountLeft = 1;
+        planks.Done = false;
+        database.SaveItemAsync(planks);
     }
 
-    void DecrementPlanks()
+    void IncrementSitups()
     {
-        planks--;
-    }
-
-    void IncrementSitups20()
-    {
-        WorkOutItem situps20 = new WorkOutItem();
-        situps20.Name = "Situps";
-        situps20.AmountTotal = 20;
-        situps20.AmountLeft = 20;
-        situps20.Done = false;
-        database.SaveItemAsync(situps20);
-        RefreshItems();
-        situps += 20;
-    }
-
-    void DecrementSitups()
-    {
-        situps--;
-    }
-
-    void RefreshItems()
-    {
-        items = database.GetItemsAsync().Result;
-        itemsLeft = items.Count;
-    }
-
-    void FinishWorkOutItem(WorkOutItem item)
-    {
-        item.Done = true;
-        database.SaveItemAsync(item);
-        //items.Remove(item);
-        RefreshItems();
-        //base.InvokeAsync(StateHasChanged);
+        WorkOutItem situps = new WorkOutItem();
+        situps.Name = "Situps";
+        situps.AmountTotal = (int)placement;
+        situps.AmountLeft = (int)placement;
+        situps.Done = false;
+        database.SaveItemAsync(situps);
     }
 }

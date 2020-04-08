@@ -1,4 +1,6 @@
-﻿<Microsoft.MobileBlazorBindings.Elements.Shell OnNavigated="OnNavigated"
+﻿@inject WorkOutItemDatabase WorkOutItemDatabase
+
+<Microsoft.MobileBlazorBindings.Elements.Shell OnNavigated="OnNavigated"
        OnNavigating="OnNavigating"
        FlyoutHeaderBehavior="FlyoutHeaderBehavior.CollapseOnScroll">
     <FlyoutHeader>
@@ -9,32 +11,37 @@
         <Microsoft.MobileBlazorBindings.Elements.FlyoutItem Route="items"
                                                             Title="Items"
                                                             FlyoutDisplayOptions="FlyoutDisplayOptions.AsMultipleItems">
-            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesLeft"
-                                                                  Title="Exercises Left"
+            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesAll"
+                                                                  Title="Exercises All"
                                                                   Icon="@(new FileImageSource { File="info.png" })">
-                <ExercisesLeft />
-            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
-            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exerciseStats"
-                                                                  Title="Exercise Stats"
-                                                                  Icon="@(new FileImageSource { File="info.png" })">
-                <ExerciseStats />
-            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
-            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addDotaExercises"
-                                                                  Title="Add Dota Exercises"
-                                                                  Icon="@(new FileImageSource { File="info.png" })">
-                <AddDotaExercises />
+                <ExercisesAll database="@WorkOutItemDatabase"/>
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
             <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
                                                                   Title="Add Apex Exercises"
                                                                   Icon="@(new FileImageSource { File="info.png" })">
-                <AddApexExercises />
+                <ExercisesLeft database="@WorkOutItemDatabase"/>
+            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exerciseStats"
+                                                                  Title="Exercise Stats" 
+                                                                  Icon="@(new FileImageSource { File="info.png" })">
+                <ExerciseStats database="@WorkOutItemDatabase"/>
+            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addDotaExercises"
+                                                                  Title="Add Dota Exercises"
+                                                                  Icon="@(new FileImageSource { File="info.png" })">
+                <AddDotaExercises database="@WorkOutItemDatabase"/>
+            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
+                                                                  Title="Add Apex Exercises"
+                                                                  Icon="@(new FileImageSource { File="info.png" })">
+                <AddApexExercises database="@WorkOutItemDatabase"/>
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
         </Microsoft.MobileBlazorBindings.Elements.FlyoutItem>
 
         <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="about"
             Title="About"
             Icon="@(new FileImageSource { File="info.png" })">
-            <AddApexExercises />
+            <AddApexExercises database="@WorkOutItemDatabase"/>
         </Microsoft.MobileBlazorBindings.Elements.ShellContent>
 
         <Microsoft.MobileBlazorBindings.Elements.MenuItem Text="Random"
@@ -49,6 +56,10 @@
 {
     void OnNavigated(ShellNavigatedEventArgs e)
     {
+        if(e.Current.Location.Equals("//items/exercisesAll"))
+        {
+            Console.WriteLine(e.Current.GetType());
+        }
     }
 
     void OnNavigating(ShellNavigatingEventArgs e)
