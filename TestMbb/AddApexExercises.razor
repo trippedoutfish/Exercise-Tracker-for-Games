@@ -86,16 +86,11 @@
                                                                                    HorizontalOptions="LayoutOptions.FillAndExpand" />
                                 </Microsoft.MobileBlazorBindings.Elements.GridCell>
                             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="3" ColumnSpan="2">
-                                <Microsoft.MobileBlazorBindings.Elements.Button OnClick="IncrementPlanks"
+                                <Microsoft.MobileBlazorBindings.Elements.Button OnClick="IncrementSitups"
                                                                                 class="buttonText"
                                                                                 HorizontalOptions="LayoutOptions.FillAndExpand"
-                                                                                Text="@((placement == 1 ? "Congrats on the win!!!" :
-                                                                                                      placement == 2 ? "Almost there." :
-                                                                                                      placement == 3 ? "You can make it next time." :
-                                                                                                      placement == 4 ? "Oh so close to greatness." :
-                                                                                                      placement <= 5 ? "I'd pick you for my top 5." :
-                                                                                                      placement <= 10 ? "Top 10 not bad." :
-                                                                                                      "Drop and give me " + placement + " situps." ))" />
+                                                                                IsEnabled="@(placement > 1)"
+                                                                                Text="@(PlankText)" />
                             </Microsoft.MobileBlazorBindings.Elements.GridCell>
                         </Contents>
                     </Microsoft.MobileBlazorBindings.Elements.Grid>
@@ -109,28 +104,53 @@
 
     double placement;
 
+    string gameName = "Apex";
+
+    public string PlankText
+    {
+        get
+        {
+            return placement == 1 ? "Congrats on the win!!!" :
+                    placement == 2 ? "Almost there." :
+                    placement == 3 ? "You can make it next time." :
+                    placement == 4 ? "Oh so close to greatness." :
+                    placement == 5 ? "I'd pick you for my top 5." :
+                    placement <= 10 ? "Top 10 not bad." :
+                    "Drop and give me " + placement + " situps.";
+        }
+    }
+
     protected override Task OnInitializedAsync()
     {
+        placement = 20;
         return base.OnInitializedAsync();
     }
 
     void IncrementPlanks()
     {
-        WorkOutItem planks = new WorkOutItem();
-        planks.Name = "Planks";
-        planks.AmountTotal = 1;
-        planks.AmountLeft = 1;
-        planks.Done = false;
+        WorkOutItem planks = new WorkOutItem()
+        {
+            Name = "Planks",
+            Description = "Not Enough Damage",
+            Game = gameName,
+            AmountTotal = 1,
+            AmountLeft = 1,
+            Done = false
+        };
         database.SaveItemAsync(planks);
     }
 
     void IncrementSitups()
     {
-        WorkOutItem situps = new WorkOutItem();
-        situps.Name = "Situps";
-        situps.AmountTotal = (int)placement;
-        situps.AmountLeft = (int)placement;
-        situps.Done = false;
+        WorkOutItem situps = new WorkOutItem()
+        {
+            Name = "Situps",
+            Description = PlankText,
+            Game = gameName,
+            AmountTotal = (int)placement,
+            AmountLeft = (int)placement,
+            Done = false
+        };
         database.SaveItemAsync(situps);
     }
 }

@@ -10,16 +10,19 @@ namespace TestMbb
     public class WorkOutItemDatabase
     {
         static readonly Lazy<SQLiteAsyncConnection> lazyInitializer = new Lazy<SQLiteAsyncConnection>(() =>
-    {
-        return new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-    });
+        {
+            return new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+        });
 
         static SQLiteAsyncConnection Database => lazyInitializer.Value;
         static bool initialized = false;
 
+        public List<WorkOutItem> items;
+
         public WorkOutItemDatabase()
         {
             InitializeAsync().SafeFireAndForget(false);
+            items = new List<WorkOutItem>();
         }
 
         async Task InitializeAsync()
@@ -33,6 +36,12 @@ namespace TestMbb
                 }
             }
         }
+
+        public async Task RefreshItems()
+        {
+            items = await GetItemsAsync();
+        }
+
 
         public Task<List<WorkOutItem>> GetItemsAsync()
         {

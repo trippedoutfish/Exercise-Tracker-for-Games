@@ -1,4 +1,4 @@
-﻿@inject WorkOutItemDatabase WorkOutItemDatabase
+﻿@inject WorkOutItemDatabase database
 
 <Microsoft.MobileBlazorBindings.Elements.Shell OnNavigated="OnNavigated"
        OnNavigating="OnNavigating"
@@ -14,174 +14,52 @@
             <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesAll"
                                                                   Title="Exercises All"
                                                                   Icon="@(new FileImageSource { File="info.png" })">
-                <ExercisesAll database="@WorkOutItemDatabase"/>
+                <ExercisesAll database="@database" />
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+            @*<Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
+                                                              Title="Add Apex Exercises"
+                                                              Icon="@(new FileImageSource { File="info.png" })">
+            <ExercisesLeft database="@database" />
+        </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+        <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exerciseStats"
+                                                              Title="Exercise Stats"
+                                                              Icon="@(new FileImageSource { File="info.png" })">
+            <ExerciseStats database="@database" />
+        </Microsoft.MobileBlazorBindings.Elements.ShellContent>*@
             <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
                                                                   Title="Add Apex Exercises"
                                                                   Icon="@(new FileImageSource { File="info.png" })">
-                <ExercisesLeft database="@WorkOutItemDatabase"/>
-            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
-            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exerciseStats"
-                                                                  Title="Exercise Stats" 
-                                                                  Icon="@(new FileImageSource { File="info.png" })">
-                <ExerciseStats database="@WorkOutItemDatabase"/>
+                <AddApexExercises database="@database" />
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
             <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addDotaExercises"
                                                                   Title="Add Dota Exercises"
                                                                   Icon="@(new FileImageSource { File="info.png" })">
-                <AddDotaExercises database="@WorkOutItemDatabase"/>
-            </Microsoft.MobileBlazorBindings.Elements.ShellContent>
-            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
-                                                                  Title="Add Apex Exercises"
-                                                                  Icon="@(new FileImageSource { File="info.png" })">
-                <AddApexExercises database="@WorkOutItemDatabase"/>
+                <AddDotaExercises database="@database" />
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
         </Microsoft.MobileBlazorBindings.Elements.FlyoutItem>
 
-        <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="about"
-            Title="About"
+        <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesLeft"
+            Title="Exercises Left"
             Icon="@(new FileImageSource { File="info.png" })">
-            <AddApexExercises database="@WorkOutItemDatabase"/>
+            <ExercisesLeft database="@database"/>
         </Microsoft.MobileBlazorBindings.Elements.ShellContent>
-
-        <Microsoft.MobileBlazorBindings.Elements.MenuItem Text="Random"
-                IconImageSource="@(new FileImageSource { File="info.png" })"
-                OnClick="OnRandomClick" />
-        <Microsoft.MobileBlazorBindings.Elements.MenuItem Text="Help"
-                IconImageSource="@(new FileImageSource { File="info.png" })"
-                OnClick="OnHelpClick" />
     </ChildContent>
 </Microsoft.MobileBlazorBindings.Elements.Shell>
 @code
 {
+    protected override Task OnInitializedAsync()
+    {
+        database.RefreshItems();
+        return base.OnInitializedAsync();
+    }
+
     void OnNavigated(ShellNavigatedEventArgs e)
     {
-        if(e.Current.Location.Equals("//items/exercisesAll"))
-        {
-            Console.WriteLine(e.Current.GetType());
-        }
+
     }
 
-    void OnNavigating(ShellNavigatingEventArgs e)
+    async void OnNavigating(ShellNavigatingEventArgs e)
     {
+        await database.RefreshItems();
     }
-
-    protected override void OnInitialized()
-    {
-        RegisterRoutes();
-    }
-
-    void RegisterRoutes()
-    {
-        //routes.Add("monkeydetails", typeof(MonkeyDetailPage));
-        //routes.Add("beardetails", typeof(BearDetailPage));
-        //routes.Add("catdetails", typeof(CatDetailPage));
-        //routes.Add("dogdetails", typeof(DogDetailPage));
-        //routes.Add("elephantdetails", typeof(ElephantDetailPage));
-
-        foreach (var item in routes)
-        {
-            Routing.RegisterRoute(item.Key, item.Value);
-        }
-    }
-
-    Random rand = new Random();
-    Dictionary<string, Type> routes = new Dictionary<string, Type>();
-    public Dictionary<string, Type> Routes { get { return routes; } }
-
-    async Task OnRandomClick()
-    {
-        string destinationRoute = routes.ElementAt(rand.Next(0, routes.Count)).Key;
-        string animalName = null;
-
-        switch (destinationRoute)
-        {
-            case "monkeydetails":
-                //animalName = MonkeyData.Monkeys.ElementAt(rand.Next(0, MonkeyData.Monkeys.Count)).Name;
-                break;
-            case "beardetails":
-                //animalName = BearData.Bears.ElementAt(rand.Next(0, BearData.Bears.Count)).Name;
-                break;
-            case "catdetails":
-                //animalName = CatData.Cats.ElementAt(rand.Next(0, CatData.Cats.Count)).Name;
-                break;
-            case "dogdetails":
-                //animalName = DogData.Dogs.ElementAt(rand.Next(0, DogData.Dogs.Count)).Name;
-                break;
-            case "elephantdetails":
-                //animalName = ElephantData.Elephants.ElementAt(rand.Next(0, ElephantData.Elephants.Count)).Name;
-                break;
-        }
-
-        var currentShell = Xamarin.Forms.Shell.Current;
-        var state = currentShell.CurrentState;
-        await currentShell.GoToAsync($"{state.Location}/{destinationRoute}?name={animalName}");
-        currentShell.FlyoutIsPresented = false;
-    }
-
-    async Task OnHelpClick()
-    {
-        var helpUrl = "https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell";
-        await Launcher.OpenAsync(helpUrl);
-    }
-
-    //int planks;
-    //int situps;
-    //int itemsLeft;
-    //List<WorkOutItem> items;
-
-    //WorkOutItemDatabase database;
-
-    //protected override Task OnInitializedAsync()
-    //{
-    //    if (database == null)
-    //    {
-    //        database = new WorkOutItemDatabase();
-    //    }
-    //    IncrementSitups20();
-    //    RefreshItems();
-    //    return base.OnInitializedAsync();
-    //}
-
-    //void IncrementPlanks()
-    //{
-    //    planks++;
-    //}
-
-    //void DecrementPlanks()
-    //{
-    //    planks--;
-    //}
-
-    //void IncrementSitups20()
-    //{
-    //    WorkOutItem situps20 = new WorkOutItem();
-    //    situps20.Name = "Situps";
-    //    situps20.AmountTotal = 20;
-    //    situps20.AmountLeft = 20;
-    //    situps20.Done = false;
-    //    database.SaveItemAsync(situps20);
-    //    RefreshItems();
-    //    situps += 20;
-    //}
-
-    //void DecrementSitups()
-    //{
-    //    situps--;
-    //}
-
-    //void RefreshItems()
-    //{
-    //    items = database.GetItemsNotDoneAsync().Result;
-    //    itemsLeft = items.Count;
-    //}
-
-    //void FinishWorkOutItem(WorkOutItem item)
-    //{
-    //    item.Done = true;
-    //    database.SaveItemAsync(item);
-    //    //items.Remove(item);
-    //    RefreshItems();
-    //    //base.InvokeAsync(StateHasChanged);
-    //}
 }

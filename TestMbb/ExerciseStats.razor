@@ -1,11 +1,47 @@
 ﻿<Microsoft.MobileBlazorBindings.Elements.ContentPage BackgroundColor="Color.FloralWhite">
+    <StyleSheet Resource="Exercises.css" Assembly="GetType().Assembly"></StyleSheet>
     <Microsoft.MobileBlazorBindings.Elements.ScrollView>
-        <Microsoft.MobileBlazorBindings.Elements.StackLayout>
-            @foreach(var item in items.GroupBy(x => x.Name).Select(xy => xy.Sum(c => c.Done ? 0 : 1)).ToList())
+        <Microsoft.MobileBlazorBindings.Elements.StackLayout HorizontalOptions="LayoutOptions.Center">
+            @foreach (var item in database.items)
             {
-                    <Microsoft.MobileBlazorBindings.Elements.Label Text="@(item.ToString())" />
+                <Microsoft.MobileBlazorBindings.Elements.Frame BorderColor="Color.Gray"
+                                                               CornerRadius="5"
+                                                               Margin="new Thickness (8, 2, 8, 2)"
+                                                               WidthRequest="300">
+                    <Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                        <Microsoft.MobileBlazorBindings.Elements.StackLayout Orientation="StackOrientation.Horizontal">
+                            <Microsoft.MobileBlazorBindings.Elements.Label Text="@(item.Game + " |   " + item.Name + ": " + item.AmountLeft + " / " + item.AmountTotal)"
+                                                                           class="redText"
+                                                                           VerticalTextAlignment="TextAlignment.Center"
+                                                                           HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                           HorizontalTextAlignment="TextAlignment.Start"
+                                                                           IsEnabled="@(!item.Done)" />
+
+                            @if (item.Done)
+                            {
+                                <Microsoft.MobileBlazorBindings.Elements.CheckBox IsChecked="@item.Done"
+                                                                                  IsCheckedChanged="@(() => ResetWorkOutItem(item))"
+                                                                                  HorizontalOptions="LayoutOptions.End"
+                                                                                  IsVisible="@item.Done" />
+                            }
+                            else
+                            {
+                                <Microsoft.MobileBlazorBindings.Elements.Button OnClick="@(() => FinishOne(item))"
+                                                                                HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                                VerticalOptions="LayoutOptions.FillAndExpand"
+                                                                                Text="Take one off" />
+                                <Microsoft.MobileBlazorBindings.Elements.CheckBox IsChecked="@item.Done"
+                                                                                  IsCheckedChanged="@(() => FinishWorkOutItem(item))"
+                                                                                  HorizontalOptions="LayoutOptions.End" />
+                            }
+                        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                        <Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                            <Microsoft.MobileBlazorBindings.Elements.BoxView Color="Color.Gray" HeightRequest="2" HorizontalOptions="LayoutOptions.Fill" />
+                            <Microsoft.MobileBlazorBindings.Elements.Label Text="@(item.Description)" />
+                        </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                    </Microsoft.MobileBlazorBindings.Elements.StackLayout>
+                </Microsoft.MobileBlazorBindings.Elements.Frame>
             }
-                
         </Microsoft.MobileBlazorBindings.Elements.StackLayout>
 
     </Microsoft.MobileBlazorBindings.Elements.ScrollView>
@@ -13,24 +49,34 @@
 @code {
     [Parameter] public WorkOutItemDatabase database { get; set; }
 
-    List<WorkOutItem> items;
-
-
-    protected override Task OnInitializedAsync()
+    async Task RefreshItems(WorkOutItem item)
     {
-        RefreshItems();
-        return base.OnInitializedAsync();
+        await database.SaveItemAsync(item);
+        await database.RefreshItems();
+        this.StateHasChanged();
     }
 
-    void DecrementSitups()
+    async void FinishOne(WorkOutItem item)
     {
-
+        item.AmountLeft--;
+        if (item.AmountLeft == 0)
+        {
+            item.Done = true;
+        }
+        await RefreshItems(item);
     }
 
-    void RefreshItems()
+    async void ResetWorkOutItem(WorkOutItem item)
     {
-        items = database.GetItemsAsync().Result;
+        item.AmountLeft = item.AmountTotal;
+        item.Done = false;
+        await RefreshItems(item);
     }
 
-
+    async void FinishWorkOutItem(WorkOutItem item)
+    {
+        item.AmountLeft = 0;
+        item.Done = true;
+        await RefreshItems(item);
+    }
 }
