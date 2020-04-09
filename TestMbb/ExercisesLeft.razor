@@ -21,7 +21,7 @@
                                                                             VerticalOptions="LayoutOptions.FillAndExpand"
                                                                             Text="Take one off"/>
                             <Microsoft.MobileBlazorBindings.Elements.CheckBox 
-                                                                              IsCheckedChanged="@(() => { FinishWorkOutItem(item); this.InvokeAsync(StateHasChanged); })"
+                                                                              IsCheckedChanged="@(() => FinishWorkOutItem(item))"
                                                                               HorizontalOptions="LayoutOptions.End" />
                         </Microsoft.MobileBlazorBindings.Elements.StackLayout>
                         <Microsoft.MobileBlazorBindings.Elements.StackLayout>
@@ -42,6 +42,7 @@
     {
         await database.SaveItemAsync(item);
         await database.RefreshItems();
+        this.StateHasChanged();
     }
 
     async void FinishOne(WorkOutItem item)

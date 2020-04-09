@@ -3,17 +3,17 @@
     <Microsoft.MobileBlazorBindings.Elements.Grid HorizontalOptions="LayoutOptions.FillAndExpand"
                                                   VerticalOptions="LayoutOptions.FillAndExpand">
         <Layout>
-            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
+            <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Star" />
             <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Star" />
         </Layout>
         <Contents>
             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="0">
                 <Microsoft.MobileBlazorBindings.Elements.Frame BorderColor="Color.Gray"
                                                                CornerRadius="5"
-                                                               Padding="8"
+                                                               Margin="new Thickness (8, 8, 8, 0)"
                                                                WidthRequest="300">
                     <Microsoft.MobileBlazorBindings.Elements.Grid HorizontalOptions="LayoutOptions.FillAndExpand"
-                                                                  VerticalOptions="LayoutOptions.FillAndExpand">
+                                                                  VerticalOptions="LayoutOptions.Fill">
                         <Layout>
                             <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Star" />
                             <Microsoft.MobileBlazorBindings.Elements.RowDefinition GridUnitType="GridUnitType.Auto" />
@@ -26,6 +26,7 @@
                                                                                class="infoText"
                                                                                VerticalTextAlignment="TextAlignment.Center"
                                                                                HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                               VerticalOptions="LayoutOptions.Fill"
                                                                                HorizontalTextAlignment="TextAlignment.Start" />
                             </Microsoft.MobileBlazorBindings.Elements.GridCell>
                             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="1">
@@ -34,7 +35,11 @@
                                                                                  HorizontalOptions="LayoutOptions.Fill" />
                             </Microsoft.MobileBlazorBindings.Elements.GridCell>
                             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="2">
-                                <Microsoft.MobileBlazorBindings.Elements.Button OnClick="IncrementPlanks" Text="30s per Plank" class="buttonText" />
+                                <Microsoft.MobileBlazorBindings.Elements.Button OnClick="IncrementPlanks" 
+                                                                                HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                                VerticalOptions="LayoutOptions.FillAndExpand"
+                                                                                Text="30s per Plank" 
+                                                                                class="buttonText" />
                             </Microsoft.MobileBlazorBindings.Elements.GridCell>
                         </Contents>
                     </Microsoft.MobileBlazorBindings.Elements.Grid>
@@ -43,7 +48,7 @@
             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="1">
                 <Microsoft.MobileBlazorBindings.Elements.Frame BorderColor="Color.Gray"
                                                                CornerRadius="5"
-                                                               Padding="8"
+                                                               Margin="new Thickness (8, 0, 8, 8)"
                                                                WidthRequest="300">
                     <Microsoft.MobileBlazorBindings.Elements.Grid HorizontalOptions="LayoutOptions.FillAndExpand"
                                                                   VerticalOptions="LayoutOptions.FillAndExpand">
@@ -58,9 +63,10 @@
 
                             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="0" ColumnSpan="2">
                                 <Microsoft.MobileBlazorBindings.Elements.Label Text="Add a situp for each rank you placed."
-                                                                               class="infoText"
+                                                                               FontSize="36"
                                                                                VerticalTextAlignment="TextAlignment.Center"
                                                                                HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                               VerticalOptions="LayoutOptions.FillAndExpand"
                                                                                HorizontalTextAlignment="TextAlignment.Start" />
                             </Microsoft.MobileBlazorBindings.Elements.GridCell>
                             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="1" ColumnSpan="2">
@@ -81,16 +87,18 @@
                                                                                placement == 3 ? "rd" :
                                                                                "th" ) + " place")"
                                                                                    class="stepperText"
-                                                                                   HorizontalTextAlignment="TextAlignment.Center"
-                                                                                   VerticalTextAlignment="TextAlignment.Center"
-                                                                                   HorizontalOptions="LayoutOptions.FillAndExpand" />
+                                                                               HorizontalTextAlignment="TextAlignment.Center"
+                                                                               VerticalTextAlignment="TextAlignment.Center"
+                                                                               HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                               VerticalOptions="LayoutOptions.FillAndExpand"/>
                                 </Microsoft.MobileBlazorBindings.Elements.GridCell>
                             <Microsoft.MobileBlazorBindings.Elements.GridCell Row="3" ColumnSpan="2">
                                 <Microsoft.MobileBlazorBindings.Elements.Button OnClick="IncrementSitups"
-                                                                                class="buttonText"
                                                                                 HorizontalOptions="LayoutOptions.FillAndExpand"
+                                                                                VerticalOptions="LayoutOptions.FillAndExpand"
                                                                                 IsEnabled="@(placement > 1)"
-                                                                                Text="@(PlankText)" />
+                                                                                Text="@(PlankText)"
+                                                                                FontSize="@(44 - (PlankText.Length / 2))"/>
                             </Microsoft.MobileBlazorBindings.Elements.GridCell>
                         </Contents>
                     </Microsoft.MobileBlazorBindings.Elements.Grid>
