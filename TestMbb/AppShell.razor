@@ -11,21 +11,11 @@
         <Microsoft.MobileBlazorBindings.Elements.FlyoutItem Route="items"
                                                             Title="Items"
                                                             FlyoutDisplayOptions="FlyoutDisplayOptions.AsMultipleItems">
-            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesAll"
-                                                                  Title="Exercises All"
-                                                                  Icon="@(new FileImageSource { File="info.png" })">
-                <ExercisesAll database="@database" />
+            <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesLeft"
+                                                                  Title="Exercises Left"
+                                                                  Icon="@(new FileImageSource { File="info.png" })" OnAppearing="RefreshItems">
+                <ExercisesLeft database="@database" />
             </Microsoft.MobileBlazorBindings.Elements.ShellContent>
-            @*<Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
-                                                              Title="Add Apex Exercises"
-                                                              Icon="@(new FileImageSource { File="info.png" })">
-            <ExercisesLeft database="@database" />
-        </Microsoft.MobileBlazorBindings.Elements.ShellContent>
-        <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exerciseStats"
-                                                              Title="Exercise Stats"
-                                                              Icon="@(new FileImageSource { File="info.png" })">
-            <ExerciseStats database="@database" />
-        </Microsoft.MobileBlazorBindings.Elements.ShellContent>*@
             <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="addApexExercises"
                                                                   Title="Add Apex Exercises"
                                                                   Icon="@(new FileImageSource { File="info.png" })">
@@ -39,9 +29,19 @@
         </Microsoft.MobileBlazorBindings.Elements.FlyoutItem>
 
         <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesLeft"
-            Title="Exercises Left"
-            Icon="@(new FileImageSource { File="info.png" })">
-            <ExercisesLeft database="@database"/>
+                                                              Title="Exercises Left"
+                                                              Icon="@(new FileImageSource { File="info.png" })" OnAppearing="RefreshItems">
+            <ExercisesLeft database="@database" />
+        </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+        <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exercisesAll"
+                                                              Title="Exercises All"
+                                                              Icon="@(new FileImageSource { File="info.png" })">
+            <ExercisesAll database="@database" />
+        </Microsoft.MobileBlazorBindings.Elements.ShellContent>
+        <Microsoft.MobileBlazorBindings.Elements.ShellContent Route="exerciseStats"
+                                                              Title="Exercise Stats"
+                                                              Icon="@(new FileImageSource { File="info.png" })">
+            <ExerciseStats database="@database" />
         </Microsoft.MobileBlazorBindings.Elements.ShellContent>
     </ChildContent>
 </Microsoft.MobileBlazorBindings.Elements.Shell>
@@ -53,13 +53,18 @@
         return base.OnInitializedAsync();
     }
 
+    void RefreshItems()
+    {
+        //database.Navigated();
+    }
+
     void OnNavigated(ShellNavigatedEventArgs e)
     {
 
     }
 
-    async void OnNavigating(ShellNavigatingEventArgs e)
+    void OnNavigating(ShellNavigatingEventArgs e)
     {
-        await database.RefreshItems();
+        database.RefreshItems();
     }
 }

@@ -18,7 +18,19 @@ namespace TestMbb
         static bool initialized = false;
 
         public List<WorkOutItem> items;
+        public event Action OnNavigated;
+        public void Navigated()
+        {
+            RefreshItems();
+            OnNavigated?.Invoke();
+        }
 
+        public List<WorkOutItem> unfinishedItems { get
+            {
+                return items.Where(x => x.Done == false).ToList();
+            }
+
+        }
         public WorkOutItemDatabase()
         {
             InitializeAsync().SafeFireAndForget(false);

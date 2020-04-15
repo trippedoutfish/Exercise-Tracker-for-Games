@@ -15,5 +15,7 @@ namespace TestMbb
         public int AmountTotal { get; set; }
         public int AmountLeft { get; set; }
         public bool Done { get; set; }
+        public DateTime CreationTimestamp { get; set; }
+        public DateTime CompletedTimestamp { get; set; }
     }
 }

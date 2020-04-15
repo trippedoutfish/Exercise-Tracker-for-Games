@@ -2,11 +2,11 @@
     <StyleSheet Resource="Exercises.css" Assembly="GetType().Assembly"></StyleSheet>
     <Microsoft.MobileBlazorBindings.Elements.ScrollView>
         <Microsoft.MobileBlazorBindings.Elements.StackLayout HorizontalOptions="LayoutOptions.Center">
-            @foreach (var item in database.items.Where(x => x.Done == false).OrderByDescending(y => y.ID))
+            @foreach (var item in database.items.Where(x => !x.Done).OrderByDescending(y => y.ID))
             {
                 <Microsoft.MobileBlazorBindings.Elements.Frame BorderColor="Color.Gray"
                                                                CornerRadius="5"
-                                                               Margin="new Thickness (8, 2, 8, 2)"
+                                                               Margin="new Thickness(8, 2, 8, 2)"
                                                                WidthRequest="300">
                     <Microsoft.MobileBlazorBindings.Elements.StackLayout>
                         <Microsoft.MobileBlazorBindings.Elements.StackLayout Orientation="StackOrientation.Horizontal">
@@ -19,10 +19,13 @@
                             <Microsoft.MobileBlazorBindings.Elements.Button OnClick="@(() => FinishOne(item))"
                                                                             HorizontalOptions="LayoutOptions.FillAndExpand"
                                                                             VerticalOptions="LayoutOptions.FillAndExpand"
-                                                                            Text="Take one off"/>
-                            <Microsoft.MobileBlazorBindings.Elements.CheckBox 
-                                                                              IsCheckedChanged="@(() => FinishWorkOutItem(item))"
-                                                                              HorizontalOptions="LayoutOptions.End" />
+                                                                            Text="Take one off" />
+                            <Microsoft.MobileBlazorBindings.Elements.Button OnClick="@(() => FinishWorkOutItem(item))"
+                                                                            BackgroundColor="Color.Transparent"
+                                                                            TextColor="Color.Red"
+                                                                            FontSize="26"
+                                                                            WidthRequest="48"
+                                                                            Text="☐" />
                         </Microsoft.MobileBlazorBindings.Elements.StackLayout>
                         <Microsoft.MobileBlazorBindings.Elements.StackLayout>
                             <Microsoft.MobileBlazorBindings.Elements.BoxView Color="Color.Gray" HeightRequest="2" HorizontalOptions="LayoutOptions.Fill" />
@@ -38,9 +41,23 @@
 @code {
     [Parameter] public WorkOutItemDatabase database { get; set; }
 
-    async Task RefreshItems(WorkOutItem item)
+    protected override Task OnParametersSetAsync()
     {
-        await database.SaveItemAsync(item);
+        return base.OnParametersSetAsync();
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        database.OnNavigated += () =>
+        {
+            RefreshItems();
+            this.StateHasChanged();
+        };
+        return base.OnInitializedAsync();
+    }
+
+    async Task RefreshItems()
+    {
         await database.RefreshItems();
         this.StateHasChanged();
     }
@@ -52,13 +69,15 @@
         {
             item.Done = true;
         }
-        await RefreshItems(item);
+        await database.SaveItemAsync(item);
+        await RefreshItems();
     }
 
     async void FinishWorkOutItem(WorkOutItem item)
     {
         item.AmountLeft = 0;
         item.Done = true;
-        await RefreshItems(item);
+        await database.SaveItemAsync(item);
+        await RefreshItems();
     }
 }
